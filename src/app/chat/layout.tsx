@@ -11,7 +11,7 @@ const ChatLayout = ({
             <div className=' border border-[#E2E8F0] rounded-md bg-white w-1/6'>
                 <Sidebar/>
             </div>
-            <div>
+            <div className=' w-5/6'>
                 {children}
             </div>
         </div>
