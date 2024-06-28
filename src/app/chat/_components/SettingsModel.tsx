@@ -65,7 +65,6 @@ const SettingsModel = () => {
                 <div className=' w-full mt-5'>
                     <p className=' font-inter text-sm font-medium text-[#334155]'>Theme</p>
                     <p className='font-inter text-[10px] text-[#B5B5B5]'>Customise your UI theme</p>
-
                     <div className=' w-[500px] flex justify-between mt-6'>
                         <div>
                             <Image src="/images/light.png" width={170} height={120} alt='light'/>
