@@ -1,13 +1,15 @@
 import React from 'react'
 import TextBox from './_components/TextBox'
 import InitialChat from './_components/InitialChat'
+import ChatSection from './_components/ChatSection'
 
 const ChatPage = () => {
   return (
     <div className=' ml-5 h-full'>
 
       <div className=' h-3/4 flex justify-center items-center'>
-        <InitialChat/>
+        {/* <InitialChat/> */}
+        <ChatSection/>
       </div>
 
       <div className='h-1/4 flex flex-col gap-8 items-center justify-end'>
