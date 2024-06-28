@@ -42,7 +42,7 @@ const ChatHeader = () => {
     ]
 
     return (
-        <div style={{ background: linearGradient }} className=' w-full h-[140px] px-5 '>
+        <div style={{ background: linearGradient }} className=' w-full h-[140px] px-5 z-10 pt-5'>
             <div className='flex justify-between h-fit items-center'>
                 <div className=' flex h-fit items-center gap-10'>
                     <h1 className=' font-inter text-2xl text-[#0F172A] font-medium'>Convolutional Neural Networks</h1>
@@ -50,7 +50,7 @@ const ChatHeader = () => {
                 </div>
 
                 <DropdownMenu>
-                    <DropdownMenuTrigger>
+                    <DropdownMenuTrigger className='mr-10'>
                         <Ellipsis size={25} />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className=' mr-8 w-64'>
