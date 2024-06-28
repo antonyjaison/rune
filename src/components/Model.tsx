@@ -13,7 +13,7 @@ const Model = ({ children, setShowModel }: ModelProps) => {
     >
       <div
         onClick={(e) => e.stopPropagation()} // Prevents closing the modal when clicking inside it
-        className='w-1/4 bg-white border border-[#CBD5E1] rounded-md p-3'
+        className='bg-white border border-[#CBD5E1] rounded-md p-3'
       >
         {children}
       </div>
