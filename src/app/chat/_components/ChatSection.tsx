@@ -10,7 +10,7 @@ const ChatSection = () => {
         <ChatHeader />
       </div>
 
-      <div className=' z-0 w-full h-full overflow-y-auto'>
+      <div className=' z-0 w-full h-full overflow-y-auto chat_section'>
         <div className=' mt-[140px] flex flex-col gap-8'>
           <UserText/>
           <RuneResponse />
