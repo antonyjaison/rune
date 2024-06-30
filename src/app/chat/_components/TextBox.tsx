@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Input } from 'react-chat-elements'
-import { MessageCircle, Send } from 'lucide-react'
+import { MessageCircle, MessageCircleCode, Send } from 'lucide-react'
 import { linearGradient } from '@/lib/constants'
 import "react-chat-elements/dist/main.css"
 import {
@@ -15,6 +15,7 @@ import {
 import { cn } from '@/lib/utils'
 import { UserRoundPlus, Sparkles } from 'lucide-react'
 import { ChatOptionsType, ChatSuggestionsType } from '@/lib/types'
+import { UploadButton } from '@/utils/uploadthing'
 
 type TextBoxProps = {
     input: string
@@ -22,8 +23,8 @@ type TextBoxProps = {
     handleSubmit: () => void
 }
 
-const TextBox = ({ input, handleInputChange, handleSubmit  }: TextBoxProps) => {
-    
+const TextBox = ({ input, handleInputChange, handleSubmit }: TextBoxProps) => {
+
     const [showCommands, setShowCommands] = useState(false)
 
     const [suggestion, setSuggestion] = useState<ChatSuggestionsType>(null)
@@ -125,6 +126,18 @@ const TextBox = ({ input, handleInputChange, handleSubmit  }: TextBoxProps) => {
 
     return (
         <div className='w-full flex justify-between h-fit items-center gap-3 px-5'>
+            <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                    // Do something with the response
+                    console.log("Files: ", res[0]);
+                    alert("Upload Completed");
+                }}
+                onUploadError={(error: Error) => {
+                    // Do something with the error.
+                    alert(`ERROR! ${error.message}`);
+                }}
+            />
             <div className='flex-1'>
                 {showCommands && (
                     <div className='w-full px-[1px]'>
