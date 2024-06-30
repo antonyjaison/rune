@@ -1,9 +1,12 @@
 import Logo from "@/components/Logo";
+import { getAuth } from "@/lib/auth";
 
-export default function Home() {
+export default async function Home() {
+  const auth = await getAuth();
   return (
     <main>
-      <Logo/>
+      <Logo />
+      {auth?.user?.email ?? "Not logged in"}
     </main>
   );
 }
