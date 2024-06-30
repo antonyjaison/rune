@@ -20,10 +20,11 @@ import { UploadButton } from '@/utils/uploadthing'
 type TextBoxProps = {
     input: string
     handleInputChange: (e: any) => void
-    handleSubmit: () => void
+    handleSubmit: () => void,
+    setMessages: any
 }
 
-const TextBox = ({ input, handleInputChange, handleSubmit }: TextBoxProps) => {
+const TextBox = ({ input, handleInputChange, handleSubmit, setMessages }: TextBoxProps) => {
 
     const [showCommands, setShowCommands] = useState(false)
 
@@ -131,7 +132,17 @@ const TextBox = ({ input, handleInputChange, handleSubmit }: TextBoxProps) => {
                 onClientUploadComplete={(res) => {
                     // Do something with the response
                     console.log("Files: ", res[0]);
-                    alert("Upload Completed");
+                    setMessages((prev: any) => [{
+                        content:"",
+                        createdAt: new Date().toISOString(),
+                        role:"user",
+                        type:"file",
+                        fileDetails:{
+                            file: res[0].url,
+                            name: res[0].name,
+                            type: res[0].type
+                        }
+                    }])
                 }}
                 onUploadError={(error: Error) => {
                     // Do something with the error.

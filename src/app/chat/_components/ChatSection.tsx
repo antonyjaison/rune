@@ -2,20 +2,21 @@ import React, { useRef, useEffect } from 'react'
 import ChatHeader from './ChatHeader'
 import RuneResponse from './RuneResponse'
 import UserText from './UserText'
+import UploadedFile from './UploadedFile'
 
 type ChatSectionProps = {
   messages: any
 }
 
-const ChatSection = ({messages}: ChatSectionProps) => {
+const ChatSection = ({ messages }: ChatSectionProps) => {
 
   const chatParent = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
-      const domNode = chatParent.current
-      if (domNode) {
-          domNode.scrollTop = domNode.scrollHeight
-      }
+    const domNode = chatParent.current
+    if (domNode) {
+      domNode.scrollTop = domNode.scrollHeight
+    }
   })
 
   return (
@@ -28,7 +29,7 @@ const ChatSection = ({messages}: ChatSectionProps) => {
         <div className=' mt-[140px] flex flex-col gap-8'>
           {messages.map((message, index) => {
             if (message.role === 'user') {
-              return <UserText key={index} message={message.content} />
+              return message.type === "file" ? <UploadedFile fileDetails={message.fileDetails} /> : <UserText key={index} message={message.content} />
             } else {
               return <RuneResponse key={index} message={message.content} />
             }
