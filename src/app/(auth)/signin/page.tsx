@@ -1,7 +1,7 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import React from "react";
-import { LoginForm } from "./components";
+import { SigninForm } from "./components";
 
 const LoginPage = () => {
   return (
@@ -17,7 +17,7 @@ const LoginPage = () => {
         </TabsList>
       </Tabs>
       <div className="w-full">
-        <LoginForm />
+        <SigninForm />
       </div>
     </>
   );

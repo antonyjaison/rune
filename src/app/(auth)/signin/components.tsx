@@ -16,8 +16,9 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
+import { login } from "@/actions/auth.action";
 
-export const LoginForm = () => {
+export const SigninForm = () => {
   const form = useForm({
     defaultValues: {
       email: "",
@@ -26,9 +27,7 @@ export const LoginForm = () => {
     resolver: zodResolver(signinSchema),
   });
 
-  const handleSubmit = form.handleSubmit((data) => {
-    console.log(data);
-  });
+  const handleSubmit = form.handleSubmit((data) => login(data));
 
   return (
     <Card className="">
@@ -36,6 +35,7 @@ export const LoginForm = () => {
         <Form {...form}>
           <form onSubmit={handleSubmit}>
             <FormField
+              disabled={form.formState.isSubmitting}
               control={form.control}
               name="email"
               render={({ field }) => (
@@ -51,6 +51,7 @@ export const LoginForm = () => {
             />
             <FormField
               control={form.control}
+              disabled={form.formState.isSubmitting}
               name="password"
               render={({ field }) => (
                 <FormItem>
@@ -64,7 +65,11 @@ export const LoginForm = () => {
               )}
             />
 
-            <Button type="submit" className="w-fit mt-7">
+            <Button
+              disabled={form.formState.isSubmitting}
+              type="submit"
+              className="w-fit mt-7"
+            >
               Sign in
             </Button>
           </form>
@@ -72,7 +77,11 @@ export const LoginForm = () => {
         <div className="py-12 px-8">
           <div className="h-[1px] bg-black/90"></div>
         </div>
-        <Button className="w-full py-6" variant="outline">
+        <Button
+          disabled={form.formState.isSubmitting}
+          className="w-full py-6"
+          variant="outline"
+        >
           <FcGoogle size={24} className="mr-2" />
           <span className="text-sm font-medium">Sign in with Google</span>
         </Button>
