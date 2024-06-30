@@ -82,3 +82,26 @@
   .div-hover-scale:hover .icon-hover-scale {
     transform: scale(1.1);
   }
+
+  .chat_section::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .chat_section::-webkit-scrollbar-track {
+    background: #f5f5f5; /* Light gray background */
+  }
+  
+  .chat_section::-webkit-scrollbar-thumb {
+    background-color: #ccc; /* Medium gray thumb color */
+    border-radius: 50px;
+    border: 2px solid #f5f5f5; /* Light gray border */
+  }
+  
+  .chat_section::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa; /* Darker gray on hover */
+  }
+  
+  .chat_section::-webkit-scrollbar-thumb:active {
+    background-color: #999; /* Slightly darker gray on active */
+  }
+  

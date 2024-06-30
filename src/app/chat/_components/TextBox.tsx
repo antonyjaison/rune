@@ -16,8 +16,14 @@ import { cn } from '@/lib/utils'
 import { UserRoundPlus, Sparkles } from 'lucide-react'
 import { ChatOptionsType, ChatSuggestionsType } from '@/lib/types'
 
-const TextBox = () => {
-    const [inputText, setInputText] = useState('')
+type TextBoxProps = {
+    input: string
+    handleInputChange: (e: any) => void
+    handleSubmit: () => void
+}
+
+const TextBox = ({ input, handleInputChange, handleSubmit  }: TextBoxProps) => {
+    
     const [showCommands, setShowCommands] = useState(false)
 
     const [suggestion, setSuggestion] = useState<ChatSuggestionsType>(null)
@@ -58,7 +64,7 @@ const TextBox = () => {
     ]
 
     useEffect(() => {
-        if (inputText.startsWith('/')) {
+        if (input.startsWith('/')) {
             setShowCommands(true)
         } else {
             setShowCommands(false)
@@ -72,13 +78,13 @@ const TextBox = () => {
             setShowCommands(false)
         }
 
-        if (inputText === '') {
+        if (input === '') {
             setShowCommands(false)
             setSelected(null)
             setOption(null)
             setSuggestion(null)
         }
-    }, [inputText])
+    }, [input])
 
     const handleOptionChange = (option: ChatOptionsType | null) => {
         setOption(option)
@@ -177,12 +183,12 @@ const TextBox = () => {
                         showCommands && "rounded-t-none",
                         selected && "rounded-t-none"
                     )}
-                    value={inputText}
-                    onChange={(e: any) => setInputText(e.target.value)}
+                    onChange={handleInputChange}
+                    value={input}
                 />
             </div>
             <div className='self-end mb-1'>
-                <button aria-label="Send" style={{ background: linearGradient }} className='border-[2.5px] border-[#CBD5E1] rounded-lg p-4'>
+                <button type='submit' onClick={handleSubmit} aria-label="Send" style={{ background: linearGradient }} className='border-[2.5px] border-[#CBD5E1] rounded-lg p-4'>
                     <Send color='#fff' size={24} />
                 </button>
             </div>

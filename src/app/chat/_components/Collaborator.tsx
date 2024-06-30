@@ -1,8 +1,20 @@
+'use client'
+
 import { CollaboratorType } from '@/lib/types'
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from '@/lib/utils'
 import { ChevronDown } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import ChatWithFriends from './ChatWithFriends'
+
 
 
 type CollaboratorProps = {
@@ -10,6 +22,8 @@ type CollaboratorProps = {
 }
 
 const Collaborator = ({ collaborators }: CollaboratorProps) => {
+
+  const [showChat, setShowChat] = useState(false)
 
   const totalCollaborators = collaborators.length
 
@@ -36,9 +50,21 @@ const Collaborator = ({ collaborators }: CollaboratorProps) => {
           </Avatar>
         </div>
       )}
-      <button className='ml-2'>
-        <ChevronDown size={20} />
-      </button>
+      <div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <ChevronDown onClick={() => setShowChat(true)} size={20} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className=' w-[500px] h-[600px]'>
+            <ChatWithFriends />
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+      </div>
+
+
+
       <div className='w-3 h-3 rounded-full bg-[#E33629] absolute top-[-6px] right-[-6px]' />
     </div>
   )
