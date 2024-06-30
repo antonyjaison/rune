@@ -4,7 +4,11 @@ import Image from 'next/image'
 import React from 'react'
 import Markdown from 'react-markdown'
 
-const RuneResponse = () => {
+type RuneResponseProps = {
+    message: string
+}
+
+const RuneResponse = ({ message }: RuneResponseProps) => {
     const markdown = `
 Sure! Here's a simple explanation of the difference between mitosis and meiosis:
 ### Mitosis:
@@ -33,7 +37,7 @@ Mitosis is like making a photocopy of a page, while meiosis is like mixing two p
                 <Image src="/rune.svg" width={33} height={30} alt='rune' />
             </div>
             <div className=' flex-1 p-5 bg-white shadow-md rounded-md rounded-tl-none'>
-                <Markdown className="font-inter text-[#111] text-base">{markdown}</Markdown>
+                <Markdown className="font-inter text-[#111] text-base">{message}</Markdown>
             </div>
             <div className=' p-2 cursor-pointer bg-white rounded-full w-fit'>
                 <Clipboard size={20} />
