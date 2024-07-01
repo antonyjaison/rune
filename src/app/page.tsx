@@ -14,7 +14,7 @@ export default async function Home() {
       ) : (
         <div>
           <h1>Welcome to Rune</h1>
-          <Link href="/login">Log in</Link>
+          <Link href="/signin">Log in</Link>
           <Link href="/signup">Sign up</Link>
         </div>
       )}

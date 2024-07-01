@@ -26,11 +26,6 @@ export const createChat = authActionClient
 
     const chatId = chat[0].id;
 
-    const res = await axios.post(process.env.BACKENDAPI_URL! + "/chat", {
-      uid: chatId,
-      message: message,
-    });
-
     await db
       .insert(messageTable)
       .values([
@@ -40,13 +35,6 @@ export const createChat = authActionClient
           userId: user.id,
           content: message,
           role: "user",
-        },
-        {
-          chatId,
-          messageType: "text",
-          userId: user.id,
-          content: res.data.response,
-          role: "bot",
         },
       ])
       .returning();
