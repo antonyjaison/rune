@@ -1,5 +1,6 @@
 "use server";
 
+import { getAuth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { authActionClient } from "@/lib/safe-action";
 import { userTable } from "@/lib/schema/auth";
@@ -136,3 +137,24 @@ export const acceptInvitation = authActionClient
 
     return data[0].id;
   });
+
+
+  export const getInvitations = async () => {
+    const auth = await getAuth();
+
+    if (!auth.user) {
+      return {
+        error: "Not authenticated",
+        data: null,
+      };
+    }
+
+    const invitations = await db.query.invitionTable.findMany({
+      where: eq(invitionTable.invitedUserId, auth.user.id),
+    });
+
+    return {
+      error: null,
+      data: invitations,
+    };
+  };
