@@ -19,3 +19,14 @@ export const chatSchema = z.object({
     message: "Message must be at least 1 character long",
   }),
 });
+
+
+export const messageSendSchema = z.object({
+  message: z.string().trim().min(1, {
+    message: "Message must be at least 1 character long",
+  }),
+  type: z.enum(["text", "file"], {
+    message: "Message type must be either text or image",
+  }),
+  chatId: z.string().trim(),
+});
