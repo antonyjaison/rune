@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Input } from 'react-chat-elements'
-import { MessageCircle, Send } from 'lucide-react'
+import { MessageCircle, MessageCircleCode, Send } from 'lucide-react'
 import { linearGradient } from '@/lib/constants'
 import "react-chat-elements/dist/main.css"
 import {
@@ -15,9 +15,18 @@ import {
 import { cn } from '@/lib/utils'
 import { UserRoundPlus, Sparkles } from 'lucide-react'
 import { ChatOptionsType, ChatSuggestionsType } from '@/lib/types'
+import { UploadButton } from '@/utils/uploadthing'
+import Flashcard from '@/components/Flashcard'
 
-const TextBox = () => {
-    const [inputText, setInputText] = useState('')
+type TextBoxProps = {
+    input: string
+    handleInputChange: (e: any) => void
+    handleSubmit: () => void,
+    setMessages: any
+}
+
+const TextBox = ({ input, handleInputChange, handleSubmit, setMessages }: TextBoxProps) => {
+
     const [showCommands, setShowCommands] = useState(false)
 
     const [suggestion, setSuggestion] = useState<ChatSuggestionsType>(null)
@@ -58,7 +67,7 @@ const TextBox = () => {
     ]
 
     useEffect(() => {
-        if (inputText.startsWith('/')) {
+        if (input.startsWith('/')) {
             setShowCommands(true)
         } else {
             setShowCommands(false)
@@ -72,13 +81,13 @@ const TextBox = () => {
             setShowCommands(false)
         }
 
-        if (inputText === '') {
+        if (input === '') {
             setShowCommands(false)
             setSelected(null)
             setOption(null)
             setSuggestion(null)
         }
-    }, [inputText])
+    }, [input])
 
     const handleOptionChange = (option: ChatOptionsType | null) => {
         setOption(option)
@@ -119,6 +128,28 @@ const TextBox = () => {
 
     return (
         <div className='w-full flex justify-between h-fit items-center gap-3 px-5'>
+            <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                    // Do something with the response
+                    console.log("Files: ", res[0]);
+                    setMessages((prev: any) => [{
+                        content:"",
+                        createdAt: new Date().toISOString(),
+                        role:"user",
+                        type:"file",
+                        fileDetails:{
+                            file: res[0].url,
+                            name: res[0].name,
+                            type: res[0].type
+                        }
+                    }])
+                }}
+                onUploadError={(error: Error) => {
+                    // Do something with the error.
+                    alert(`ERROR! ${error.message}`);
+                }}
+            />
             <div className='flex-1'>
                 {showCommands && (
                     <div className='w-full px-[1px]'>
@@ -177,15 +208,16 @@ const TextBox = () => {
                         showCommands && "rounded-t-none",
                         selected && "rounded-t-none"
                     )}
-                    value={inputText}
-                    onChange={(e: any) => setInputText(e.target.value)}
+                    onChange={handleInputChange}
+                    value={input}
                 />
             </div>
             <div className='self-end mb-1'>
-                <button aria-label="Send" style={{ background: linearGradient }} className='border-[2.5px] border-[#CBD5E1] rounded-lg p-4'>
+                <button type='submit' onClick={handleSubmit} aria-label="Send" style={{ background: linearGradient }} className='border-[2.5px] border-[#CBD5E1] rounded-lg p-4'>
                     <Send color='#fff' size={24} />
                 </button>
             </div>
+            {/* <Flashcard /> */}
         </div>
     )
 }
