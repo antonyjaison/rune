@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import ChatHeader from './ChatHeader'
+import ChatHeader from './ChatHeader'p
 import RuneResponse from './RuneResponse'
 import UserText from './UserText'
 import UploadedFile from './UploadedFile'

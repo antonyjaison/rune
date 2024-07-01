@@ -18,14 +18,14 @@ export const chatTable = pgTable("chat", {
     .defaultNow(),
 });
 
-const messageTypeEnum = pgEnum("message_type", ["text", "image"]);
+export const messageTypeEnum = pgEnum("message_type", ["text", "image"]);
 
 export const messageTable = pgTable("message", {
   id: text("id").$defaultFn(createId).primaryKey(),
   chatId: text("chat_id")
     .notNull()
     .references(() => chatTable.id),
-  type: messageTypeEnum("type").notNull(),
+  type: messageTypeEnum("message_type").notNull(),
   userId: text("user_id")
     .notNull()
     .references(() => userTable.id),

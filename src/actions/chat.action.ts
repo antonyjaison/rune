@@ -43,6 +43,7 @@ export const getChats = async () => {
   if (!auth.user) {
     return {
       error: "Unauthorized",
+      data:null
     };
   }
   const collaboratedChatIds = await db.query.collaboratorTable.findMany({
@@ -62,7 +63,10 @@ export const getChats = async () => {
     ),
   });
 
-  return chats;
+  return {
+    data: chats,
+    error: null,
+  };
 };
 
 export const getChatDetail = async (chatId: string) => {

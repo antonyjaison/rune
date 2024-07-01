@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Input } from 'react-chat-elements'
-import { MessageCircle, MessageCircleCode, Send } from 'lucide-react'
+import { Ban, MessageCircle, MessageCircleCode, Send } from 'lucide-react'
 import { linearGradient } from '@/lib/constants'
 import "react-chat-elements/dist/main.css"
 import {
@@ -17,6 +17,7 @@ import { UserRoundPlus, Sparkles } from 'lucide-react'
 import { ChatOptionsType, ChatSuggestionsType } from '@/lib/types'
 import { UploadButton } from '@/utils/uploadthing'
 import Flashcard from '@/components/Flashcard'
+import { createChat } from '@/actions/chat.action'
 
 type TextBoxProps = {
     input: string
@@ -28,11 +29,25 @@ type TextBoxProps = {
 const TextBox = ({ input, handleInputChange, handleSubmit, setMessages }: TextBoxProps) => {
 
     const [showCommands, setShowCommands] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const [suggestion, setSuggestion] = useState<ChatSuggestionsType>(null)
     const [option, setOption] = useState<ChatOptionsType>(null)
 
     const [selected, setSelected] = useState<React.ReactElement | null>(null)
+
+    const sendChat = async () => {
+        setLoading(true)
+        await createChat({
+            message: input
+        }).then((res) => {
+            console.log(res)
+        }).catch((err) => {
+            console.log(err)
+        }).finally(() => {
+            setLoading(false)
+        })
+    }
 
     type SuggestionType = {
         id: number
@@ -134,11 +149,11 @@ const TextBox = ({ input, handleInputChange, handleSubmit, setMessages }: TextBo
                     // Do something with the response
                     console.log("Files: ", res[0]);
                     setMessages((prev: any) => [{
-                        content:"",
+                        content: "",
                         createdAt: new Date().toISOString(),
-                        role:"user",
-                        type:"file",
-                        fileDetails:{
+                        role: "user",
+                        type: "file",
+                        fileDetails: {
                             file: res[0].url,
                             name: res[0].name,
                             type: res[0].type
@@ -213,8 +228,15 @@ const TextBox = ({ input, handleInputChange, handleSubmit, setMessages }: TextBo
                 />
             </div>
             <div className='self-end mb-1'>
-                <button type='submit' onClick={handleSubmit} aria-label="Send" style={{ background: linearGradient }} className='border-[2.5px] border-[#CBD5E1] rounded-lg p-4'>
-                    <Send color='#fff' size={24} />
+                <button disabled={loading} type='submit' onClick={sendChat} aria-label="Send" style={{ background: linearGradient }} className={cn(
+                    "border-[2.5px] border-[#CBD5E1] rounded-lg p-4",
+                    loading && "cursor-not-allowed"
+                )}>
+                    {loading ? (
+                        <Ban size={24} color='#fff' />
+                    ) : (
+                        <Send color='#fff' size={24} />
+                    )}
                 </button>
             </div>
             {/* <Flashcard /> */}
