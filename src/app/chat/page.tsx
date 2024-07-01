@@ -6,10 +6,17 @@ import InitialChat from './_components/InitialChat'
 import ChatSection from './_components/ChatSection'
 import { useChat } from 'ai/react'
 import UploadedFile from './_components/UploadedFile'
+import { createChat } from "@/actions/chat.action";
 
 const ChatPage = () => {
-  const { messages, input, handleInputChange, handleSubmit, setMessages } = useChat();
+  const { messages, input, handleInputChange, setMessages } = useChat();
   console.log(messages)
+
+  const handleSubmit = async () => {
+    const res = await createChat({
+      message: input,
+    });
+  };
   return (
     <div className=' ml-5 h-full'>
 

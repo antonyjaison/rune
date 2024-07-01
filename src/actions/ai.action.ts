@@ -6,55 +6,62 @@ import { chatTable, messageTable } from "@/lib/schema/chat";
 import { messageSendSchema } from "@/lib/validation";
 import axios from "axios";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const sendMessage = authActionClient
   .schema(messageSendSchema)
   .action(async ({ parsedInput, ctx }) => {
-    const { user } = ctx;
-    const { message, type, chatId } = parsedInput;
+    try {
+      const { user } = ctx;
+      const { message, type, chatId } = parsedInput;
 
-    // Do something with the message
-    const chat = await db.query.chatTable.findFirst({
-      where: eq(chatTable.id, chatId),
-      columns: {
-        id: true,
-      },
-    });
+      // Do something with the message
+      const chat = await db.query.chatTable.findFirst({
+        where: eq(chatTable.id, chatId),
+        columns: {
+          id: true,
+        },
+      });
 
-    if (!chat) {
-      return {
-        error: "Chat not found",
-        data: null,
-      };
-    }
+      if (!chat) {
+        return {
+          error: "Chat not found",
+          data: null,
+        };
+      }
 
-    const res = await axios.post(process.env.BACKEND_API!, {
-      uid: chat.id,
-      message: type === "file" ? "" : message,
-      pdf_url: message,
-    });
+      const res = await axios.post(process.env.BACKENDAPI_URL! + "/chat", {
+        uid: chat.id,
+        message: type === "file" ? "file uploaded" : message,
+        pdf_url: type === "file" ? message : undefined,
+      });
 
-    const newMessage = {
-      chatId,
-      messageType: "text" as const,
-      userId: user.id,
-      content: res.data.response,
-      role: "bot" as const,
-    };
-
-    await db.insert(messageTable).values([
-      {
-        content: message,
+      const newMessage = {
         chatId,
-        messageType: type,
+        messageType: "text" as const,
         userId: user.id,
-        role: "user" as const,
-      },
-      newMessage,
-    ]);
+        content: res.data.response,
+        role: "bot" as const,
+      };
 
-    return {
-      data: newMessage,
-      error: null,
-    };
+      await db.insert(messageTable).values([
+        {
+          content: message,
+          chatId,
+          messageType: type,
+          userId: user.id,
+          role: "user" as const,
+        },
+        newMessage,
+      ]);
+
+      revalidatePath(`/chat/${chatId}`, "page");
+
+      return {
+        data: newMessage,
+        error: null,
+      };
+    } catch (e) {
+      console.error(e);
+    }
   });

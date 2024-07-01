@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { authActionClient } from "@/lib/safe-action";
 import { chatTable, collaboratorTable, messageTable } from "@/lib/schema/chat";
 import { chatSchema } from "@/lib/validation";
+import axios from "axios";
 import { eq, inArray, or } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
@@ -25,15 +26,29 @@ export const createChat = authActionClient
 
     const chatId = chat[0].id;
 
+    const res = await axios.post(process.env.BACKENDAPI_URL! + "/chat", {
+      uid: chatId,
+      message: message,
+    });
+
     await db
       .insert(messageTable)
-      .values({
-        chatId,
-        messageType: "text",
-        userId: user.id,
-        content: message,
-        role: "user",
-      })
+      .values([
+        {
+          chatId,
+          messageType: "text",
+          userId: user.id,
+          content: message,
+          role: "user",
+        },
+        {
+          chatId,
+          messageType: "text",
+          userId: user.id,
+          content: res.data.response,
+          role: "bot",
+        },
+      ])
       .returning();
 
     return redirect(`/chat/${chat[0].id}`);
