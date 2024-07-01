@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils'
 import { UserRoundPlus, Sparkles } from 'lucide-react'
 import { ChatOptionsType, ChatSuggestionsType } from '@/lib/types'
 import { UploadButton } from '@/utils/uploadthing'
+import Flashcard from '@/components/Flashcard'
 
 type TextBoxProps = {
     input: string
@@ -216,6 +217,7 @@ const TextBox = ({ input, handleInputChange, handleSubmit, setMessages }: TextBo
                     <Send color='#fff' size={24} />
                 </button>
             </div>
+            {/* <Flashcard /> */}
         </div>
     )
 }
