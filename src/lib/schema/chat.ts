@@ -69,6 +69,10 @@ export const chatRelations = relations(chatTable, ({ one, many }) => ({
   messages: many(messageTable),
   invitions: many(invitionTable),
   collaborators: many(collaboratorTable),
+  user: one(userTable, {
+    fields: [chatTable.userId],
+    references: [userTable.id],
+  }),
 }));
 
 export const messageRelations = relations(messageTable, ({ one }) => ({
@@ -82,4 +86,15 @@ export const userRelations = relations(userTable, ({ one, many }) => ({
   chats: many(chatTable),
   invitions: many(invitionTable),
   collaborators: many(collaboratorTable),
+}));
+
+export const invitationRelations = relations(invitionTable, ({ one }) => ({
+  chat: one(chatTable, {
+    fields: [invitionTable.chatId],
+    references: [chatTable.id],
+  }),
+  user: one(userTable, {
+    fields: [invitionTable.invitedUserId],
+    references: [userTable.id],
+  }),
 }));
