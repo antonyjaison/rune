@@ -29,17 +29,19 @@ export const sendMessage = authActionClient
 
     const newMessage = {
       chatId,
-      type: "text" as const,
+      messageType: "text" as const,
       userId: user.id,
-      body: "Hello",
+      content: "Hello",
+      role: "bot" as const,
     };
 
     await db.insert(messageTable).values([
       {
-        body: message,
+        content: message,
         chatId,
-        type,
+        messageType: type,
         userId: user.id,
+        role: "user" as const,
       },
       newMessage,
     ]);

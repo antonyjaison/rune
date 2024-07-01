@@ -29,9 +29,10 @@ export const createChat = authActionClient
       .insert(messageTable)
       .values({
         chatId,
-        type: "text",
+        messageType: "text",
         userId: user.id,
-        body: message,
+        content: message,
+        role: "user",
       })
       .returning();
 

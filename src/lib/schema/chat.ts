@@ -18,18 +18,20 @@ export const chatTable = pgTable("chat", {
     .defaultNow(),
 });
 
-export const messageTypeEnum = pgEnum("message_type", ["text", "image"]);
+export const messageTypeEnum = pgEnum("message_type", ["text", "file"]);
+export const messageRole = pgEnum("role", ["user", "bot"]);
 
 export const messageTable = pgTable("message", {
   id: text("id").$defaultFn(createId).primaryKey(),
   chatId: text("chat_id")
     .notNull()
     .references(() => chatTable.id),
-  type: messageTypeEnum("message_type").notNull(),
+  messageType: messageTypeEnum("message_type").notNull(),
+  role: messageRole("role").notNull(),
   userId: text("user_id")
     .notNull()
     .references(() => userTable.id),
-  body: text("body").notNull(),
+  content: text("body").notNull(),
   createdAt: timestamp("created_at", {
     withTimezone: true,
     mode: "date",
