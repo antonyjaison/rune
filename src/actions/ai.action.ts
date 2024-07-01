@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { authActionClient } from "@/lib/safe-action";
 import { chatTable, messageTable } from "@/lib/schema/chat";
 import { messageSendSchema } from "@/lib/validation";
+import axios from "axios";
 import { eq } from "drizzle-orm";
 
 export const sendMessage = authActionClient
@@ -27,11 +28,17 @@ export const sendMessage = authActionClient
       };
     }
 
+    const res = await axios.post(process.env.BACKEND_API!, {
+      uid: chat.id,
+      message: type === "file" ? "" : message,
+      pdf_url: message,
+    });
+
     const newMessage = {
       chatId,
       messageType: "text" as const,
       userId: user.id,
-      content: "Hello",
+      content: res.data.response,
       role: "bot" as const,
     };
 
