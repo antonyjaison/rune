@@ -17,6 +17,7 @@ import {
 import { cn } from '@/lib/utils'
 import Model from '@/components/Model'
 import SettingsModel from './SettingsModel'
+import Link from 'next/link'
 
 const Sidebar = () => {
     const [sidebarWidth, setSidebarWidth] = useState(0)
@@ -49,10 +50,12 @@ const Sidebar = () => {
         <div ref={divRef} className='flex flex-col justify-between h-full w-full'>
             <div>
                 <div className='p-5'>
-                    <Button variant="outline" className='w-full flex gap-3 p-5'>
-                        <Plus size={18} />
-                        <p className='font-inter text-[#0F172A] font-medium text-sm'>New Chat</p>
-                    </Button>
+                    <Link href="/chat">
+                        <Button variant="outline" className='w-full flex gap-3 p-5'>
+                            <Plus size={18} />
+                            <p className='font-inter text-[#0F172A] font-medium text-sm'>New Chat</p>
+                        </Button>
+                    </Link>
                 </div>
 
                 <div className='mt-3'>
