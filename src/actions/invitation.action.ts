@@ -151,6 +151,17 @@ export const acceptInvitation = authActionClient
 
     const invitations = await db.query.invitionTable.findMany({
       where: eq(invitionTable.invitedUserId, auth.user.id),
+      with: {
+        chat: {
+          with: {
+            user: {
+              columns: {
+                email: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     return {
