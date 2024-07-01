@@ -18,6 +18,7 @@ export const chatTable = pgTable("chat", {
     .defaultNow(),
 });
 
+
 export const messageTypeEnum = pgEnum("message_type", ["text", "file"]);
 export const messageRole = pgEnum("role", ["user", "bot"]);
 

@@ -1,4 +1,4 @@
-import { chatTable, messageTable } from "./schema/chat";
+import { chatTable, messageTable } from "./schema/chat"
 
 export type CollaboratorType = {
   id: string;
@@ -17,6 +17,12 @@ export type ChatSuggestionsType =
 export type Chat = typeof chatTable.$inferSelect;
 export type Message = typeof messageTable.$inferSelect;
 
+export type ChatSuggestionsType = 'generate_notes' | 'create_flashcards' | 'explain' | null
+
+export type Chat = typeof chatTable.$inferSelect;
+export type Message = typeof messageTable.$inferSelect;
+
 export type ChatDetails = Chat & {
   messages: Message[];
 };
+
