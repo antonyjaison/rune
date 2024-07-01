@@ -10,7 +10,7 @@ type ChatSectionProps = {
 
 const ChatSection = ({ messages }: ChatSectionProps) => {
 
-  const chatParent = useRef<HTMLUListElement>(null)
+  const chatParent = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const domNode = chatParent.current
