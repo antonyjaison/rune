@@ -2,7 +2,7 @@
 
 import { getAuth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { actionClient, authActionClient } from "@/lib/safe-action";
+import { authActionClient } from "@/lib/safe-action";
 import { chatTable, collaboratorTable, messageTable } from "@/lib/schema/chat";
 import { chatSchema } from "@/lib/validation";
 import { eq, inArray, or } from "drizzle-orm";
