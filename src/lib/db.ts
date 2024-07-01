@@ -2,6 +2,7 @@ import { pgTableCreator } from "drizzle-orm/pg-core";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as authSchema from "./schema/auth";
+import * as chatSchema from "./schema/chat";
 
 function singleton<Value>(name: string, value: () => Value): Value {
   const globalAny: any = global;
@@ -22,6 +23,7 @@ function createDatabaseConnection() {
   return drizzle(poolConnection, {
     schema: {
       ...authSchema,
+      ...chatSchema,
     },
   });
 }
