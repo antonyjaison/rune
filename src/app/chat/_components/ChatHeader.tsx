@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from 'next/image';
-import { getUserEmailAndIds, sendInvitation, getInvitations } from '@/actions/invitation.action';
+import { getUserEmailAndIds, sendInvitation, getInvitations, acceptInvitation } from '@/actions/invitation.action';
 import { usePathname } from 'next/navigation';
 
 const ChatHeader = () => {
@@ -118,6 +118,17 @@ const ChatHeader = () => {
 
     console.log(invitations)
 
+    const acceptInvitationHandler = async (invitationId: string) => {
+        const data = await acceptInvitation({
+            invitationId: invitationId
+        }).then((data) => {
+            alert("Invitation accepted")
+        }).catch((error) => {
+            alert("Invitation already accepted")
+        })
+        console.log(data)
+    }
+
 
     return (
         <div style={{ background: linearGradient }} className='w-full h-[140px] px-5 z-20 pt-5'>
@@ -196,6 +207,7 @@ const ChatHeader = () => {
 
                         <div className=' mt-5'>
                             {invitations && invitations?.map((invitation) => {
+                                console.log('invitation =>',invitation)
                                 return (
                                     <div className=' w-full text-left font-medium flex h-fit items-center gap-4 font-inter text-[#334155] text-sm rounded-md p-2 py-1 hover:bg-[#F1F5F9] border justify-between'>
                                         <p>{invitation?.invitedUserId}</p>
@@ -203,7 +215,7 @@ const ChatHeader = () => {
                                             <Button variant="outline" >
                                                 Decline
                                             </Button>
-                                            <Button className=' ml-2'>
+                                            <Button onClick={() => acceptInvitationHandler(invitation?.id)} className=' ml-2'>
                                                 Accept
                                             </Button>
                                         </div>
